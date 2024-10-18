@@ -35,23 +35,23 @@ public class SecurityPatchLevelPreferenceController extends BasePreferenceContro
             "https://source.android.com/security/bulletin/");
 
     private final PackageManager mPackageManager;
-    //private final String mCurrentPatch;
+    private final String mCurrentPatch;
 
     public SecurityPatchLevelPreferenceController(Context context, String key) {
         super(context, key);
         mPackageManager = mContext.getPackageManager();
-        //mCurrentPatch = DeviceInfoUtils.getSecurityPatch();
+        mCurrentPatch = DeviceInfoUtils.getSecurityPatch();
     }
 
     @Override
     public int getAvailabilityStatus() {
-        return AVAILABLE;
+        return !TextUtils.isEmpty(mCurrentPatch)
+                ? AVAILABLE : CONDITIONALLY_UNAVAILABLE;
     }
 
     @Override
     public CharSequence getSummary() {
-        //return mCurrentPatch;
-        return "September 1, 2023";
+        return mCurrentPatch;
     }
 
     @Override
